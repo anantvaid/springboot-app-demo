@@ -1,0 +1,29 @@
+spring:
+  application:
+    name: fullstack-backend
+  threads:
+    virtual:
+      enabled: true
+  jpa:
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: "jdbc:postgresql://172.17.0.2:5432/fullstack"
+    username: postgres
+    password: postgres
+
+management:
+  endpoints:
+    web:
+      cors:
+        allow-credentials: false
+        allowed-methods: "GET,POST,PUT,PATCH,DELETE,OPTIONS,HEAD"
+        allowed-headers: "*"
+        allowed-origins: "*"
