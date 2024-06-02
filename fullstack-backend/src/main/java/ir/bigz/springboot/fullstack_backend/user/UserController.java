@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/users")
-@CrossOrigin("http://localhost:3000")
 public class UserController {
 
     private static final Logger log = LoggerFactory.getLogger(UserController.class);

@@ -1,4 +1,4 @@
-import axios from 'axios';
+import { userRequest } from '../helpers/axios_helper';
 import React, { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 
@@ -12,8 +12,10 @@ const ViewUser = () => {
     });
 
     const loadUserData = async (userId) => {
-        const response = await axios.get(`http://localhost:8080/api/v1/users/${userId}`);
-        setUser(response.data);
+        userRequest("GET", `/${userId}`)
+            .then( (response) => {
+                setUser(response.data);
+            });
     }
 
     useEffect( () => {

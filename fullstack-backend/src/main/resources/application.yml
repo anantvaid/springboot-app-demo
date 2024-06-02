@@ -9,7 +9,7 @@ spring:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
       ddl-auto: update
-    show-sql: true
+    show-sql: false
     properties:
       hibernate:
         format_sql: true
@@ -27,3 +27,18 @@ management:
         allowed-methods: "GET,POST,PUT,PATCH,DELETE,OPTIONS,HEAD"
         allowed-headers: "*"
         allowed-origins: "*"
+
+web:
+  cors:
+    allowed-origins: ["http://localhost:3000"]
+    allowed-methods:
+      get: "GET"
+      post: "POST"
+      put: "PUT"
+      delete: "DELETE"
+      options: "OPTIONS"
+      head: "HEAD"
+    allowed-headers : ["Authorization", "content-type", "x-auth-token", "Accept" ,"Accept-Language", "Content-Language"]
+    exposed-headers: ["Access-Control-Allow-Origin", "Access-Control-Allow-Headers", "Access-Control-Allow-Credentials", "Access-Control-Expose-Headers"]
+    allow-credentials: true
+    max-age: 3600

@@ -1,4 +1,4 @@
-import axios from 'axios';
+import { userRequest } from '../helpers/axios_helper';
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -20,7 +20,7 @@ const AddUser = () => {
 
     const onSubmit= async (e) => {
         e.preventDefault();
-        await axios.post("http://localhost:8080/api/v1/users", user);
+        await userRequest("POST", "", user);
         navigate("/");
     }
 
