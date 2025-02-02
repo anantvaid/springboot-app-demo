@@ -1,0 +1,53 @@
+services:
+  # Spring Boot backend
+  fullstack-backend:
+    container_name: fullstack-backend
+    build:
+      context: ./fullstack-backend   # Path to the Spring Boot project (backend)
+    ports:
+      - "8080:8080"         # Expose port 8080 for backend
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/mydatabase
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=mysecretpassword
+    networks:
+      - fullstack-net  # Bind to the custom network
+    depends_on:
+      - db
+
+  # React frontend
+  fullstack-front:
+    container_name: fullstack-front
+    build:
+      context: ./fullstack-front  # Path to the React project (frontend)
+    ports:
+      - "80:80"            # Expose port 80 for frontend (Nginx)
+    networks:
+      - fullstack-net  # Bind to the custom network
+    depends_on:
+      - fullstack-backend
+
+  # PostgreSQL database
+  db:
+    image: postgres:13
+    environment:
+      POSTGRES_DB: mydatabase
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: mysecretpassword
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"  # Expose PostgreSQL port
+    networks:
+      - fullstack-net  # Bind to the custom network
+
+# Define a named volume for PostgreSQL data
+volumes:
+  postgres-data:
+
+# Define a custom network for the services to communicate
+networks:
+  fullstack-net:
+    driver: bridge
+

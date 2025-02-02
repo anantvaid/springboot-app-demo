@@ -15,9 +15,9 @@ spring:
         format_sql: true
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: "jdbc:postgresql://172.17.0.2:5432/fullstack"
+    url: "jdbc:postgresql://db:5432/fullstack"
     username: postgres
-    password: postgres
+    password: mysecretpassword
 
 management:
   endpoints:
@@ -30,7 +30,9 @@ management:
 
 web:
   cors:
-    allowed-origins: ["http://localhost:3000"]
+    allowed-origins: 
+      - "http://localhost:3000"
+      - "http://localhost:80"
     allowed-methods:
       get: "GET"
       post: "POST"
@@ -38,7 +40,17 @@ web:
       delete: "DELETE"
       options: "OPTIONS"
       head: "HEAD"
-    allowed-headers : ["Authorization", "content-type", "x-auth-token", "Accept" ,"Accept-Language", "Content-Language"]
-    exposed-headers: ["Access-Control-Allow-Origin", "Access-Control-Allow-Headers", "Access-Control-Allow-Credentials", "Access-Control-Expose-Headers"]
+    allowed-headers:
+        - "Authorization"
+        - "content-type"
+        - "x-auth-token"
+        - "Accept"
+        - "Accept-Language"
+        - "Content-Language"
+    exposed-headers:
+        - "Access-Control-Allow-Origin"
+        - "Access-Control-Allow-Headers"
+        - "Access-Control-Allow-Credentials"
+        - "Access-Control-Expose-Headers"
     allow-credentials: true
     max-age: 3600

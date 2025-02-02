@@ -36,7 +36,7 @@ public class UserController {
         return ResponseEntity.ok(userById);
     }
 
-    @PostMapping("/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<?> updateUser(@RequestBody User user, @PathVariable("id") Long userId){
         userService.updateUserById(user, userId);
         return ResponseEntity.status(HttpStatus.OK).build();

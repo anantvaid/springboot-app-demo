@@ -24,13 +24,13 @@ const EditUser = () => {
     }, [])
 
     const loadUserData = async () => {
-        const response = await axios.get(`http://localhost:8080/api/v1/users/${id}`);
+        const response = await axios.get(`/api/v1/users/${id}`);
         setUser(response.data);
     }
 
     const onSubmit= async (e) => {
         e.preventDefault();
-        await axios.post(`http://localhost:8080/api/v1/users/${id}`, user);
+        await axios.put(`/api/v1/users/${id}`, user);
         navigate("/");
     }
 
