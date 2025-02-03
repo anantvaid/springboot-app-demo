@@ -4,8 +4,8 @@ services:
     container_name: fullstack-backend
     build:
       context: ./fullstack-backend   # Path to the Spring Boot project (backend)
-    ports:
-      - "8080:8080"         # Expose port 8080 for backend
+        #    ports:
+        #- "8080:8080"         # Expose port 8080 for backend
     environment:
       - SPRING_PROFILES_ACTIVE=prod
       - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/mydatabase
@@ -37,8 +37,8 @@ services:
       POSTGRES_PASSWORD: mysecretpassword
     volumes:
       - postgres-data:/var/lib/postgresql/data
-    ports:
-      - "5432:5432"  # Expose PostgreSQL port
+        #ports:
+        # - "5432:5432"  # Expose PostgreSQL port
     networks:
       - fullstack-net  # Bind to the custom network
 

@@ -1,6 +1,6 @@
 import axios from "axios";
 
-axios.defaults.baseURL = 'http://localhost';
+axios.defaults.baseURL = 'http://13.233.201.127';
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 
 const userUrl = "/api/v1/users";
