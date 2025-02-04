@@ -6,7 +6,7 @@ const Navbar = () => {
     <div>
         <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
             <div className="container-fluid">
-                <Link className="navbar-brand" to="/">Full Stack Application</Link>
+                <Link className="navbar-brand" to="/">Springboot Full Stack Application</Link>
                 <button 
                     className="navbar-toggler" 
                     type="button" 
@@ -17,7 +17,7 @@ const Navbar = () => {
                     aria-label="Toggle navigation">
                 <span className="navbar-toggler-icon"></span>
                 </button>
-                <Link className='btn btn-outline-light' to="/adduser">Add user</Link>
+                <Link className='btn btn-outline-light' to="/adduser">Add a user</Link>
             </div>
         </nav>
     </div>
