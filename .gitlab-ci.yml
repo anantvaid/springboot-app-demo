@@ -1,0 +1,64 @@
+stages:
+  - build
+  - push
+  - deploy
+
+# Stage 2: Modify files using `sed` and build Docker images
+build_and_modify_files:
+  stage: build
+  tags:
+    - ec2-runner  # Specify the self-hosted runner tag here
+  script:
+    - git clone https://gitlab.com/anantvaid/springboot-app-demo/
+    - cd springboot-app-demo/
+    - export SERVER_IP=$(curl http://checkip.amazonaws.com)
+    - echo $SERVER_IP
+    - sed -i "s/localhost/$SERVER_IP/g" fullstack-front/nginx.conf
+    - sed -i "s/localhost/$SERVER_IP/g" fullstack-front/src/helpers/axios_helper.js
+
+    # Build Docker images for frontend and backend
+    - cd fullstack-front
+    - docker build -t $DOCKER_HUB_USERNAME/spr-react-frontend-app:$CI_COMMIT_SHA .
+    - cd ..
+
+    - cd fullstack-backend
+    - docker build -t $DOCKER_HUB_USERNAME/spr-react-backend-app:$CI_COMMIT_SHA .
+    - cd ..
+
+# Stage 3: Push Docker images to Docker Hub
+push_to_dockerhub:
+  stage: push
+  tags:
+    - ec2-runner  # Specify the self-hosted runner tag here
+  image: docker:20.10.7
+  services:
+    - docker:19.03.12-dind
+  script:
+    - echo "$DOCKER_HUB_PASSWORD" | docker login -u "$DOCKER_HUB_USERNAME" --password-stdin
+    - docker tag $DOCKER_HUB_USERNAME/spr-react-frontend-app:$CI_COMMIT_SHA $DOCKER_HUB_USERNAME/spr-react-frontend-app:latest
+    - docker push $DOCKER_HUB_USERNAME/spr-react-frontend-app:$CI_COMMIT_SHA
+    - docker push $DOCKER_HUB_USERNAME/spr-react-frontend-app:latest
+    - docker tag $DOCKER_HUB_USERNAME/spr-react-backend-app:$CI_COMMIT_SHA $DOCKER_HUB_USERNAME/spr-react-backend-app:latest
+    - docker push $DOCKER_HUB_USERNAME/spr-react-backend-app:$CI_COMMIT_SHA
+    - docker push $DOCKER_HUB_USERNAME/spr-react-backend-app:latest
+
+# Stage 4: Deploy to EC2 using Docker Compose
+deploy_to_ec2:
+  stage: deploy
+  tags:
+    - ec2-runner  # Specify the self-hosted runner tag here
+  image: docker:20.10.7
+  services:
+    - docker:19.03.12-dind
+  script:
+    - docker pull $DOCKER_HUB_USERNAME/spr-react-frontend-app:latest
+    - docker pull $DOCKER_HUB_USERNAME/spr-react-backend-app:latest
+    
+    # Ensure old containers are stopped and removed
+    - docker compose down
+
+    # Rebuild and start the application with new images
+    - docker compose up -d --build
+      
+  only:
+    - main  # Deploy only when pushing to the `main` branch
