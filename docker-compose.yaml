@@ -2,8 +2,7 @@ services:
   # Spring Boot backend
   fullstack-backend:
     container_name: fullstack-backend
-    build:
-      context: ./fullstack-backend   # Path to the Spring Boot project (backend)
+    image: anantvaid4/spr-react-backend-app:latest
         #    ports:
         #- "8080:8080"         # Expose port 8080 for backend
     environment:
@@ -19,8 +18,7 @@ services:
   # React frontend
   fullstack-front:
     container_name: fullstack-front
-    build:
-      context: ./fullstack-front  # Path to the React project (frontend)
+    image: anantvaid4/spr-react-frontend-app:latest
     ports:
       - "80:80"            # Expose port 80 for frontend (Nginx)
     networks:
