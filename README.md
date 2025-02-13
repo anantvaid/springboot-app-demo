@@ -1,42 +1,94 @@
-# Full Stack App 
+# Spring Boot + React Full-Stack Application (Dockerized)
 
-Full Stack App is a web application built with Spring Boot 3 for the backend and React for the frontend. It provides a seamless full-stack development experience for building modern web applications.
+This project is a clone from https://github.com/PouyaPouryaie/react-springboot-CRUD. This demonstrates how to containerize a **Spring Boot backend**, **React frontend**, and **PostgreSQL database** using **Docker** and **Docker Compose**. <br/>
+The setup ensures:  
+✅ **Backend and database ports are not exposed** to the outside world.  
+✅ **Nginx acts as a reverse proxy**, forwarding API requests to Spring Boot.  
+✅ **Docker Compose** manages all services for easy deployment.  
+✅ **CI/CD automation using GitLab CI/CD** with a **self-hosted EC2 runner**.  
 
-## Table of Contents
+---
 
-- [Features](#features)
-- [Prerequisites](#prerequisites)
-- [Getting Started](#getting-started)
+## 🏗 Project Architecture
 
-## Features
+The application follows a **three-tier architecture**:
 
-- **Spring Boot Backend:**
-  - RESTful API endpoints.
-  - Database integration with Spring Data JPA.
+1️⃣ **Frontend (React + Nginx)** → Handles UI and user interactions.  
+2️⃣ **Backend (Spring Boot)** → Processes API requests and communicates with the database.  
+3️⃣ **Database (PostgreSQL)** → Stores and manages application data.  
 
-- **React Frontend:**
-  - Responsive and dynamic user interface.
-  - State management using React Hooks.
-  - Integration with backend APIs.
+![diagram-export-13-2-2025-5_42_19-pm](https://github.com/user-attachments/assets/d04ef1d5-1ad6-42e8-96f7-c8692d884701)
 
-- **Full Stack:**
-  - Seamless integration between the backend and frontend.
-  - Modern and efficient development workflow.
+---
 
-## Prerequisites
+## 🚀 Getting Started
 
-Before you begin, ensure you have met the following requirements:
+### 1️⃣ Prerequisites
+Make sure you have:
+- [Docker](https://www.docker.com/) installed  
+- [Docker Compose](https://docs.docker.com/compose/) installed  
 
-- Java Development Kit (JDK) installed.
-- Node.js and npm installed.
-- IDE with support for Spring Boot and React development.
+### 2️⃣ Clone the Repository
+```bash
+git clone https://github.com/yourusername/springboot-react-docker.git
+cd springboot-react-docker
+```
 
-## Getting Started
+### 3️⃣ Run the Application
+```bash
+docker compose up --build -d
+```
+✅ The **React frontend** will be available at `http://localhost`.  
+✅ The **backend (Spring Boot API)** is only accessible inside the Docker network.  
+✅ The **PostgreSQL database** is only accessible within the backend container.  
 
-Follow these steps to set up and run the FullStackApp locally:
 
-1. Clone the source repository:
+### 4️⃣ Stopping the Application
+To stop all services:
+```bash
+docker compose down
+```
+To remove containers **including database volumes**:
+```bash
+docker compose down -v
+```
 
-   ```bash
-   git clone https://github.com/PouyaPouryaie/react-springboot-CRUD.git
+---
 
+## 🔄 CI/CD Automation with GitLab
+
+The application is configured with **GitLab CI/CD** for automated builds and deployments.
+
+### 📜 CI/CD Pipeline (`.gitlab-ci.yml`)
+
+The pipeline:  
+✅ **Builds frontend & backend images**  
+✅ **Pushes them to Docker Hub**  
+✅ **Deploys them on EC2 using Docker Compose**  
+
+👉 **Refer to the `.gitlab-ci.yml` file for full details.**  
+
+---
+
+## 📝 Additional Configurations
+
+### 🔄 Reverse Proxy with Nginx
+The `nginx.conf` file ensures:  
+✅ **API requests (`/api/`) are proxied to `fullstack-backend:8080`**  
+✅ **CORS headers allow secure frontend-backend communication**  
+
+👉 **Refer to `nginx.conf` for full configuration.**  
+
+---
+
+## 📖 Blog Post
+For a detailed explanation, check out my blog post:  
+👉 **[Dockerizing a Spring Boot + React Application](#)** *(Insert blog link here)*  
+
+---
+
+## 📚 Resources
+- [Docker Documentation](https://docs.docker.com/)  
+- [Spring Boot with Docker](https://spring.io/guides/gs/spring-boot-docker/)  
+- [Nginx Reverse Proxy Guide](https://www.nginx.com/resources/wiki/start/)  
+- [GitLab CI/CD](https://docs.gitlab.com/ee/ci/)  
