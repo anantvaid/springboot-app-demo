@@ -35,6 +35,15 @@ cd springboot-react-docker
 ```
 
 ### 3️⃣ Run the Application
+Edit the IP in frontend code with IP of the EC2 server.
+```bash
+export SERVER_IP=$(curl http://checkip.amazonaws.com)
+echo $SERVER_IP
+sed -i "s/localhost/$SERVER_IP/g" fullstack-front/nginx.conf
+sed -i "s/localhost/$SERVER_IP/g" fullstack-front/src/helpers/axios_helper.js
+```
+
+Finally deploy the application using docker compose.
 ```bash
 docker compose up --build -d
 ```
@@ -83,7 +92,7 @@ The `nginx.conf` file ensures:
 
 ## 📖 Blog Post
 For a detailed explanation, check out my blog post:  
-👉 **[Dockerizing a Spring Boot + React Application](#)** *(Insert blog link here)*  
+👉 **[Dockerizing a Spring Boot + React Application](https://techtalkswithanant.hashnode.dev/how-to-dockerize-a-spring-boot-and-react-app-with-nginx-proxy)  
 
 ---
 
